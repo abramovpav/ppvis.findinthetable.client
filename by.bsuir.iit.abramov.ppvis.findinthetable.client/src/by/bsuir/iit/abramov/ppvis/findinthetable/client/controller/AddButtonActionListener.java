@@ -22,9 +22,9 @@ public class AddButtonActionListener implements ActionListener, ButtonActionList
 
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		
+
 		final ActionButton button = (ActionButton) e.getSource();
-		ContentPane contentPane = (ContentPane) button.getContainer();
+		final ContentPane contentPane = (ContentPane) button.getContainer();
 		if (!contentPane.isConnect()) {
 			JOptionPane.showMessageDialog(null, Window.geti18nString("no_connection"));
 			return;

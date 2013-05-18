@@ -3,8 +3,6 @@ package by.bsuir.iit.abramov.ppvis.findinthetable.client.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
-import java.io.IOException;
-import java.nio.channels.ServerSocketChannel;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -13,7 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import by.bsuir.iit.abramov.ppvis.findinthetable.client.server.Client;
 import by.bsuir.iit.abramov.ppvis.findinthetable.client.util.CoupleExt;
 import by.bsuir.iit.abramov.ppvis.findinthetable.model.Student;
 import by.bsuir.iit.abramov.ppvis.findinthetable.utiilNetClasses.Mode;
@@ -24,7 +21,6 @@ public class ContentPane extends JPanel {
 	private ToolPanel			toolBar;
 	private Desktop				desktop;
 	private final JFrame		parent;
-	
 
 	public ContentPane(final JFrame parent) {
 
@@ -50,6 +46,11 @@ public class ContentPane extends JPanel {
 		desktop.close();
 	}
 
+	public void connect() {
+
+		desktop.connect();
+	}
+
 	public void deleteStudents(final List<Student> students) {
 
 		desktop.deleteStudents(students);
@@ -70,20 +71,21 @@ public class ContentPane extends JPanel {
 		add(toolBar, BorderLayout.EAST);
 	}
 
-	public void openXML(final File file) {
+	public boolean isConnect() {
 
-		desktop.openXML(file);
+		return desktop.isConnect();
 	}
 
-	public void saveXML(final File file) {
-
-		desktop.saveXML(file);
-	}
 
 	public List<Student> search(final List<CoupleExt<String, JTextField>> list,
 			final int num) {
 
 		return desktop.search(list, num);
+	}
+
+	public void sendMessage(final Mode mode) {
+
+		desktop.sendMessage(mode);
 	}
 
 	public void setEnLocale() {
@@ -96,23 +98,18 @@ public class ContentPane extends JPanel {
 		((Window) parent).setRuLocale();
 	}
 
+	public void showOpenDialog() {
+
+		desktop.showOpenDialog();
+	}
+	
+	public void showSaveDialog() {
+		desktop.showSaveDialog();
+	}
+
 	public void updateInteface() {
 
 		toolBar.updateInterface();
 		desktop.updateInterface();
-	}
-	
-	public boolean isConnect() {
-		return desktop.isConnect();
-	}
-
-	public void connect() {
-
-		desktop.connect();
-	}
-
-	public void sendMessage(Mode mode) {
-
-		desktop.sendMessage(mode);
 	}
 }

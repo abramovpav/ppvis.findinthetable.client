@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
 import by.bsuir.iit.abramov.ppvis.findinthetable.client.server.ModelInterface;
 import by.bsuir.iit.abramov.ppvis.findinthetable.client.view.Desktop;
 import by.bsuir.iit.abramov.ppvis.findinthetable.client.view.Window;
-import by.bsuir.iit.abramov.ppvis.findinthetable.model.Model;
 import by.bsuir.iit.abramov.ppvis.findinthetable.model.Student;
 
 public class DesktopNavigationButtonActionListener implements ActionListener {
@@ -31,14 +30,14 @@ public class DesktopNavigationButtonActionListener implements ActionListener {
 		final JButton button = (JButton) e.getSource();
 		List<Student> pageOfStudents = new Vector<Student>();
 		if (client.isConnect()) {
-			if (Window.geti18nString(Desktop.BUTTON_NEXT).equalsIgnoreCase(button.getText())) {
+			if (Window.geti18nString(Desktop.BUTTON_NEXT).equalsIgnoreCase(
+					button.getText())) {
 				pageOfStudents = client.getNextPageOfStudents();
 			} else if (Window.geti18nString(Desktop.BUTTON_PREV).equalsIgnoreCase(
 					button.getText())) {
 				pageOfStudents = client.getPrevPageOfStudents();
 			}
-		}
-		else {
+		} else {
 			JOptionPane.showMessageDialog(null, Window.geti18nString("no_connection"));
 		}
 		desktop.setStudents(desktop.getTableModel(), pageOfStudents);

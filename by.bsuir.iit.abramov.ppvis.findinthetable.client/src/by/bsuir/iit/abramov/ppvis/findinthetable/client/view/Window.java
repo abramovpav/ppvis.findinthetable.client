@@ -85,16 +85,6 @@ public class Window extends JFrame {
 				Window.defaultHeight);
 	}
 
-	public void openXML(final File file) {
-
-		contentPane.openXML(file);
-	}
-
-	public void saveXML(final File file) {
-
-		contentPane.saveXML(file);
-	}
-
 	public void setEnLocale() {
 
 		Window.resourseBundle = ResourceBundle.getBundle("MessagesBundle",

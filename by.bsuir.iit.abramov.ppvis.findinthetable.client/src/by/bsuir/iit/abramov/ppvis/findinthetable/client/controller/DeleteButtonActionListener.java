@@ -23,13 +23,12 @@ public class DeleteButtonActionListener implements ActionListener, ButtonActionL
 	public void actionPerformed(final ActionEvent e) {
 
 		final ActionButton button = (ActionButton) e.getSource();
-		ContentPane contentPane = (ContentPane) button.getContainer();
+		final ContentPane contentPane = (ContentPane) button.getContainer();
 		if (!contentPane.isConnect()) {
 			JOptionPane.showMessageDialog(null, Window.geti18nString("no_connection"));
 			return;
 		}
-		final FindDialog dialog = new FindDialog(contentPane,
-				FindDialog.BUTTON_DELETE);
+		final FindDialog dialog = new FindDialog(contentPane, FindDialog.BUTTON_DELETE);
 		dialog.setModal(true);
 		dialog.setVisible(true);
 		// final Student student = dialog.getStudent();

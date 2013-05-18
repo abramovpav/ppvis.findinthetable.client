@@ -12,14 +12,15 @@ public class NavigationButtonActionListener implements ActionListener {
 
 	private final ActionListener	listener;
 
-	public NavigationButtonActionListener(final ModelInterface model, final Desktop desktop) {
-
-		listener = new DesktopNavigationButtonActionListener(model, desktop);
-	}
-
 	public NavigationButtonActionListener(final Model model, final FindDialog findDialog) {
 
 		listener = new DialogNavigationButtonActionListener(model, findDialog);
+	}
+
+	public NavigationButtonActionListener(final ModelInterface model,
+			final Desktop desktop) {
+
+		listener = new DesktopNavigationButtonActionListener(model, desktop);
 	}
 
 	@Override

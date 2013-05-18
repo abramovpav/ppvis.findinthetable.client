@@ -10,16 +10,15 @@ import javax.swing.JOptionPane;
 import by.bsuir.iit.abramov.ppvis.findinthetable.client.server.ModelInterface;
 import by.bsuir.iit.abramov.ppvis.findinthetable.client.view.Desktop;
 import by.bsuir.iit.abramov.ppvis.findinthetable.client.view.Window;
-import by.bsuir.iit.abramov.ppvis.findinthetable.model.Model;
 import by.bsuir.iit.abramov.ppvis.findinthetable.model.Student;
 
 public class DesktopViewSizeButtonListener implements ActionListener {
-	private final ModelInterface		client;
-	private final Desktop	desktop;
-	private int				modifier;
+	private final ModelInterface	client;
+	private final Desktop			desktop;
+	private int						modifier;
 
-	public DesktopViewSizeButtonListener(final ModelInterface client, final Desktop desktop,
-			final String caption) {
+	public DesktopViewSizeButtonListener(final ModelInterface client,
+			final Desktop desktop, final String caption) {
 
 		this.client = client;
 		this.desktop = desktop;
@@ -38,8 +37,7 @@ public class DesktopViewSizeButtonListener implements ActionListener {
 		if (!client.isConnect()) {
 			JOptionPane.showMessageDialog(null, Window.geti18nString("no_connection"));
 			pageOfStudents = new Vector<Student>();
-		}
-		else {
+		} else {
 			client.setViewSize(client.getViewSize() + modifier);
 			pageOfStudents = client.getCurrPageOfStudent();
 		}

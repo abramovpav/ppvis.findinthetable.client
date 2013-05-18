@@ -23,13 +23,12 @@ public class FindButtonActionListener implements ActionListener, ButtonActionLis
 	public void actionPerformed(final ActionEvent e) {
 
 		final ActionButton button = (ActionButton) e.getSource();
-		ContentPane contentPane = (ContentPane) button.getContainer();
+		final ContentPane contentPane = (ContentPane) button.getContainer();
 		if (!contentPane.isConnect()) {
 			JOptionPane.showMessageDialog(null, Window.geti18nString("no_connection"));
 			return;
 		}
-		final FindDialog dialog = new FindDialog(contentPane,
-				FindDialog.BUTTON_SEARCH);
+		final FindDialog dialog = new FindDialog(contentPane, FindDialog.BUTTON_SEARCH);
 		dialog.setModal(true);
 		dialog.setVisible(true);
 		// final Student student = dialog.getStudent();

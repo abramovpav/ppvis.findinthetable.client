@@ -72,6 +72,7 @@ public class Desktop extends JPanel {
 	}
 
 	public void connect() {
+
 		if (client == null) {
 			client = new Client();
 		}
@@ -79,13 +80,6 @@ public class Desktop extends JPanel {
 			JOptionPane.showMessageDialog(null, "Can't connect");
 		}
 		refresh();
-	}
-	
-	public boolean isConnect() {
-		if (client == null) {
-			return false;
-		}
-		return client.isConnect();
 	}
 
 	private AttributiveCellTableModel createTable(final List<Student> studentsInput) {
@@ -126,7 +120,7 @@ public class Desktop extends JPanel {
 		// final Controller controller = new Controller(model, this);
 		// model.addObserver(controller);
 		// addObserver(controller);
-		//connect();
+		// connect();
 
 		final List<Student> students = new Vector<Student>();// model.getNextPageOfStudents();
 		// students = server.getNextPageOfStudents();
@@ -138,9 +132,23 @@ public class Desktop extends JPanel {
 				new NavigationButtonActionListener(client, this));
 	}
 
-	public void openXML(final File file) {
+	public boolean isConnect() {
 
-		client.openXML(file);
+		if (client == null) {
+			return false;
+		}
+		return client.isConnect();
+	}
+
+	public void loadFile(final Object obj) {
+
+		client.loadFile(obj);
+		refresh();
+	}
+	
+	public void saveFile(final Object obj) {
+		client.saveFile(obj);
+		refresh();
 	}
 
 	private void prepareTable() {
@@ -160,9 +168,25 @@ public class Desktop extends JPanel {
 		setStudents(tableModel, pageOfStudents);
 	}
 
+	private void refreshObservers() {
+
+		if (client.isConnect()) {
+			Integer studentsCount = client.getStudentsCount();
+			if (studentsCount == null) {
+				studentsCount = -1;
+			}
+			maxObserver.setText(Integer.toString(studentsCount));
+			Integer viewSize = client.getViewSize();
+			if (viewSize == null) {
+				viewSize = -1;
+			}
+			observer.setText(Integer.toString(viewSize));
+		}
+	}
+
 	public void saveXML(final File file) {
 
-		client.saveXML(file);
+		client.saveFile(file);
 	}
 
 	public List<Student> search(final List<CoupleExt<String, JTextField>> list,
@@ -280,19 +304,14 @@ public class Desktop extends JPanel {
 		refreshObservers();
 	}
 
-	private void refreshObservers() {
-		if (client.isConnect()) {
-			Integer studentsCount = client.getStudentsCount();
-			if (studentsCount == null) {
-				studentsCount = -1;
-			}
-			maxObserver.setText(Integer.toString(studentsCount));
-			Integer viewSize = client.getViewSize();
-			if (viewSize == null) {
-				viewSize = -1;
-			}
-			observer.setText(Integer.toString(viewSize));
-		}
+	public void showOpenDialog() {
+
+		OpenDialog.showDialog(this, client.getFilesList());
+		// client.openXML();
+	}
+	
+	public void showSaveDialog() {
+		SaveDialog.showDialog(this, client.getFilesList());
 	}
 
 	public void updateInterface() {

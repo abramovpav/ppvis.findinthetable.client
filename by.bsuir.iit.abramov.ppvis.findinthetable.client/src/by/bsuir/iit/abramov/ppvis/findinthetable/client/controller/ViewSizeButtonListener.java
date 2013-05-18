@@ -12,16 +12,16 @@ public class ViewSizeButtonListener implements ActionListener {
 
 	private final ActionListener	listener;
 
-	public ViewSizeButtonListener(final ModelInterface client, final Desktop desktop,
-			final String caption) {
-
-		listener = new DesktopViewSizeButtonListener(client, desktop, caption);
-	}
-
 	public ViewSizeButtonListener(final Model model, final FindDialog findDialog,
 			final String caption) {
 
 		listener = new DialogViewSizeButtonListener(model, findDialog, caption);
+	}
+
+	public ViewSizeButtonListener(final ModelInterface client, final Desktop desktop,
+			final String caption) {
+
+		listener = new DesktopViewSizeButtonListener(client, desktop, caption);
 	}
 
 	@Override

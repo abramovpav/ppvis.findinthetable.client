@@ -2,12 +2,12 @@ package by.bsuir.iit.abramov.ppvis.findinthetable.client.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
-import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import by.bsuir.iit.abramov.ppvis.findinthetable.client.util.ActionButton;
 import by.bsuir.iit.abramov.ppvis.findinthetable.client.view.ContentPane;
+import by.bsuir.iit.abramov.ppvis.findinthetable.client.view.Window;
 
 public class OpenButtonActionListener implements ActionListener, ButtonActionListener {
 
@@ -22,16 +22,12 @@ public class OpenButtonActionListener implements ActionListener, ButtonActionLis
 	public void actionPerformed(final ActionEvent e) {
 
 		final ActionButton button = (ActionButton) e.getSource();
-		final JFileChooser fn = new JFileChooser();
-		//fn.setFileFilter(new XMLFilter());
-		final int ret = fn.showOpenDialog(null);
-		if (ret == JFileChooser.APPROVE_OPTION) {
-			final File file = fn.getSelectedFile();
-			final ContentPane cont = ((ContentPane) button.getContainer());
-			cont.openXML(file);
-
+		final ContentPane contentPane = ((ContentPane) button.getContainer());
+		if (!contentPane.isConnect()) {
+			JOptionPane.showMessageDialog(null, Window.geti18nString("no_connection"));
+			return;
 		}
-
+		contentPane.showOpenDialog();
 	}
 
 }

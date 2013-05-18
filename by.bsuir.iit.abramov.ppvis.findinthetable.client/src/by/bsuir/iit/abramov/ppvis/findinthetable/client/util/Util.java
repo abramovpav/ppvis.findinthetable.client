@@ -69,19 +69,19 @@ public class Util {
 		Util.combine(cellAtt, table, columns, rows);
 	}
 
-	public static ButtonPanel createButtonPanel(final ModelInterface client, final Desktop desktop,
-			final ActionListener listener) {
-
-		final ButtonPanel buttonPanel = Util.createButtons(desktop, listener);
-		Util.createViewSizePanel(buttonPanel, client, desktop);
-		return buttonPanel;
-	}
-
 	public static void createButtonPanel(final Model model, final FindDialog findDialog,
 			final JPanel mainPanel, final ActionListener listener) {
 
 		final ButtonPanel buttonPanel = Util.createButtons(mainPanel, listener);
 		Util.createViewSizePanel(buttonPanel, model, findDialog);
+	}
+
+	public static ButtonPanel createButtonPanel(final ModelInterface client,
+			final Desktop desktop, final ActionListener listener) {
+
+		final ButtonPanel buttonPanel = Util.createButtons(desktop, listener);
+		Util.createViewSizePanel(buttonPanel, client, desktop);
+		return buttonPanel;
 	}
 
 	private static ButtonPanel createButtons(final JPanel mainPanel,
@@ -104,7 +104,8 @@ public class Util {
 		return buttonPanel;
 	}
 
-	private static JPanel createViewPanel(final ButtonPanel buttonPanel, final Desktop desktop) {
+	private static JPanel createViewPanel(final ButtonPanel buttonPanel,
+			final Desktop desktop) {
 
 		final JPanel viewSizePanel = new JPanel();
 		buttonPanel.add(viewSizePanel, BorderLayout.CENTER);
@@ -115,22 +116,22 @@ public class Util {
 		panel.add(text);
 		viewSizePanel.add(panel, BorderLayout.CENTER);
 		text.setEditable(false);
-		
+
 		desktop.setObserver(text);
 
 		final JLabel label = new JLabel(Window.geti18nString(Desktop.MAX));
 		buttonPanel.setLabel(label);
 		panel.add(label);
 		text = new JTextField(Integer.toString(0));
-		
+
 		text.setEditable(false);
 		panel.add(text);
-		
+
 		desktop.setMaxObserver(text);
-		
+
 		return viewSizePanel;
 	}
-	
+
 	private static JPanel createViewPanel(final ButtonPanel buttonPanel, final Model model) {
 
 		final JPanel viewSizePanel = new JPanel();
@@ -148,27 +149,11 @@ public class Util {
 		buttonPanel.setLabel(label);
 		panel.add(label);
 		text = new JTextField(Integer.toString(0));
-		
+
 		text.setEditable(false);
 		panel.add(text);
 		model.setMaxObserver(text);
 		return viewSizePanel;
-	}
-
-	public static void createViewSizePanel(final ButtonPanel buttonPanel,
-			final ModelInterface client, final Desktop desktop) {
-
-		JButton button;
-		final JPanel viewSizePanel = Util.createViewPanel(buttonPanel, desktop);
-
-		button = new JButton(Desktop.DECREMENT);
-		viewSizePanel.add(button, BorderLayout.WEST);
-		button.addActionListener(new ViewSizeButtonListener(client, desktop,
-				Desktop.DECREMENT));
-		button = new JButton(Desktop.INCREMENT);
-		button.addActionListener(new ViewSizeButtonListener(client, desktop,
-				Desktop.INCREMENT));
-		viewSizePanel.add(button, BorderLayout.EAST);
 	}
 
 	public static void createViewSizePanel(final ButtonPanel buttonPanel,
@@ -183,6 +168,22 @@ public class Util {
 				Desktop.DECREMENT));
 		button = new JButton(Desktop.INCREMENT);
 		button.addActionListener(new ViewSizeButtonListener(model, findDialog,
+				Desktop.INCREMENT));
+		viewSizePanel.add(button, BorderLayout.EAST);
+	}
+
+	public static void createViewSizePanel(final ButtonPanel buttonPanel,
+			final ModelInterface client, final Desktop desktop) {
+
+		JButton button;
+		final JPanel viewSizePanel = Util.createViewPanel(buttonPanel, desktop);
+
+		button = new JButton(Desktop.DECREMENT);
+		viewSizePanel.add(button, BorderLayout.WEST);
+		button.addActionListener(new ViewSizeButtonListener(client, desktop,
+				Desktop.DECREMENT));
+		button = new JButton(Desktop.INCREMENT);
+		button.addActionListener(new ViewSizeButtonListener(client, desktop,
 				Desktop.INCREMENT));
 		viewSizePanel.add(button, BorderLayout.EAST);
 	}

@@ -3,12 +3,12 @@ package by.bsuir.iit.abramov.ppvis.findinthetable.client.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import by.bsuir.iit.abramov.ppvis.findinthetable.client.view.ADialog;
+import javax.swing.JDialog;
 
 public class DialogCancelButtonActionListener implements ActionListener {
-	private final ADialog	dialog;
+	private final JDialog	dialog;
 
-	public DialogCancelButtonActionListener(final ADialog dialog) {
+	public DialogCancelButtonActionListener(final JDialog dialog) {
 
 		this.dialog = dialog;
 	}

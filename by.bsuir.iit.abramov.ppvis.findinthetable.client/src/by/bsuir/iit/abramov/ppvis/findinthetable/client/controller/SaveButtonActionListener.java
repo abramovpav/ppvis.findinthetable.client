@@ -5,9 +5,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import by.bsuir.iit.abramov.ppvis.findinthetable.client.util.ActionButton;
 import by.bsuir.iit.abramov.ppvis.findinthetable.client.view.ContentPane;
+import by.bsuir.iit.abramov.ppvis.findinthetable.client.view.Window;
 
 public class SaveButtonActionListener implements ActionListener, ButtonActionListener {
 
@@ -22,13 +24,12 @@ public class SaveButtonActionListener implements ActionListener, ButtonActionLis
 	public void actionPerformed(final ActionEvent e) {
 
 		final ActionButton button = (ActionButton) e.getSource();
-		final JFileChooser fn = new JFileChooser();
-		//fn.setFileFilter(new XMLFilter());
-		final int ret = fn.showSaveDialog(null);
-		if (ret == JFileChooser.APPROVE_OPTION) {
-			final File file = fn.getSelectedFile();
-			((ContentPane) button.getContainer()).saveXML(file);
+		final ContentPane contentPane = ((ContentPane) button.getContainer());
+		if (!contentPane.isConnect()) {
+			JOptionPane.showMessageDialog(null, Window.geti18nString("no_connection"));
+			return;
 		}
+		contentPane.showSaveDialog();
 
 	}
 

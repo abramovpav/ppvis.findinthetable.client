@@ -90,6 +90,49 @@ public class Client implements ModelInterface {
 		return getModePageOfStudent(Mode.GET_CURR_PAGE);
 	}
 
+	@Override
+	public List<String> getFilesList() {
+
+		final List<String> files = new ArrayList<String>();
+
+		if (isConnect()) {
+			sendPackage(new Package(Mode.GET_FILES_LIST, new ArrayList<Object>()));
+
+			Object obj;
+
+			while (true) {
+				try {
+					obj = ois.readObject();
+				} catch (final IOException e) {
+					System.out.println("can't read");
+					e.printStackTrace();
+					break;
+				} catch (final ClassNotFoundException e) {
+					e.printStackTrace();
+					System.out.println("can't read");
+					break;
+				}
+				if (obj != null) {
+					if (obj.getClass() == Package.class) {
+						final Package pack = (Package) obj;
+						final Mode mode = pack.getMode();
+						switch (mode) {
+							case GET_FILES_LIST:
+								receiveFiles(files, pack);
+								return files;
+							default:
+								System.out.println("default");
+							break;
+						}
+						System.out.println();
+						break;
+					}
+				}
+			}
+		}
+		return files;
+	}
+
 	private Integer getIntegerValue(final Mode inputMode) {
 
 		Integer integerValue = null;
@@ -207,12 +250,6 @@ public class Client implements ModelInterface {
 		return getIntegerValue(Mode.GET_STUDENTS_COUNT);
 	}
 
-	@Override
-	public Integer getViewSize() {
-
-		return getIntegerValue(Mode.GET_VIEWSIZE);
-	}
-
 	/*
 	 * case ADD_STUDENT: break; case DELETE_STUDENTS: break; case GET_CURR_PAGE:
 	 * break; case GET_NEXT_PAGE: break; case GET_PREV_PAGE: break; case
@@ -221,6 +258,12 @@ public class Client implements ModelInterface {
 	 * break; case SEARCH1: break; case SEARCH2: break; case SEARCH3: break;
 	 * case SET_VIEWSIZE: break;
 	 */
+
+	@Override
+	public Integer getViewSize() {
+
+		return getIntegerValue(Mode.GET_VIEWSIZE);
+	}
 
 	@Override
 	public boolean isConnect() {
@@ -252,10 +295,25 @@ public class Client implements ModelInterface {
 	}
 
 	@Override
-	public void openXML(final File file) {
+	public void loadFile(final Object obj) {
 
-		// TODO Auto-generated method stub
+		if (isConnect()) {
+			if (obj != null && obj.getClass() == String.class) {
+				final List<Object> objects = new ArrayList<Object>();
+				objects.add(obj);
+				sendPackage(new Package(Mode.OPEN_FILE, objects));
+			}
+		}
+	}
 
+	private void receiveFiles(final List<String> students, final Package pack) {
+
+		for (final Object object : pack.getObjects()) {
+			if (object.getClass() == String.class) {
+				final String string = (String) object;
+				students.add(string);
+			}
+		}
 	}
 
 	private void receiveStudents(final List<Student> students, final Package pack) {
@@ -269,9 +327,16 @@ public class Client implements ModelInterface {
 	}
 
 	@Override
-	public void saveXML(final File file) {
+	public void saveFile(final Object obj) {
 
-		// TODO Auto-generated method stub
+		if (isConnect()) {
+			if (obj != null && obj.getClass() == String.class) {
+				System.out.println("string" + (String)obj);
+				final List<Object> objects = new ArrayList<Object>();
+				objects.add(obj);
+				sendPackage(new Package(Mode.SAVE_FILE, objects));
+			}
+		}
 
 	}
 
@@ -427,9 +492,10 @@ public class Client implements ModelInterface {
 
 	@Override
 	public void setViewSize(final Integer viewSize) {
+
 		final List<Object> list = new ArrayList<Object>();
 		list.add(viewSize);
 		sendPackage(new Package(Mode.SET_VIEWSIZE, list));
-		 
+
 	}
 }

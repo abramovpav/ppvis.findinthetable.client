@@ -6,8 +6,8 @@ import java.util.List;
 public enum MenuContent {
 	FILE("file", MenuItem.OPEN, MenuItem.SAVE, MenuItem.CLOSE, MenuItem.EXIT), EDIT(
 			"edit", MenuItem.ADD, MenuItem.DELETE, MenuItem.FIND,
-			MenuItem.LANGUAGE_ENGLISH, MenuItem.LANGUAGE_RUSSIAN, MenuItem.CONNECT), ABOUT("about",
-			MenuItem.AUTHOR);
+			MenuItem.LANGUAGE_ENGLISH, MenuItem.LANGUAGE_RUSSIAN, MenuItem.CONNECT), ABOUT(
+			"about", MenuItem.AUTHOR);
 
 	private String			section;
 	private List<MenuItem>	items;
