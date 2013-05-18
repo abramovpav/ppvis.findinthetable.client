@@ -9,8 +9,8 @@ import java.util.logging.Logger;
 
 import javax.swing.JTextField;
 
-import by.bsuir.iit.abramov.ppvis.findinthetable.controller.Controller;
-import by.bsuir.iit.abramov.ppvis.findinthetable.util.Util;
+import by.bsuir.iit.abramov.ppvis.findinthetable.client.controller.Controller;
+import by.bsuir.iit.abramov.ppvis.findinthetable.client.util.Util;
 
 public class Model {
 
@@ -48,6 +48,7 @@ public class Model {
 		}
 	}
 
+	
 	public void addStudent(final Student student) {
 
 		if (student != null) {
@@ -56,6 +57,7 @@ public class Model {
 		notifyMaxObserver();
 	}
 
+	
 	public void deleteStudents(final List<Student> delStudents) {
 
 		for (final Student student : delStudents) {
@@ -72,6 +74,7 @@ public class Model {
 		return currPage;
 	}
 
+	
 	public final List<Student> getCurrPageOfStudent() {
 
 		if (getCurrPage() < 0) {
@@ -90,6 +93,7 @@ public class Model {
 		return result;
 	}
 
+	
 	public List<Student> getNextPageOfStudents() {
 
 		leafNext();
@@ -117,17 +121,20 @@ public class Model {
 		return pageStudents;
 	}
 
+	
 	public List<Student> getPrevPageOfStudents() {
 
 		leafPrev();
 		return getPageOfStudents();
 	}
 
+	
 	public int getStudentsCount() {
 
 		return students.size();
 	}
 
+	
 	public final Integer getViewSize() {
 
 		return viewSize;
@@ -138,6 +145,7 @@ public class Model {
 		return max % 2 != 0 && max % 2 != 1;
 	}
 
+	
 	public void leafNext() {
 
 		if (currPage < getMaxPage() - 1) {
@@ -145,6 +153,7 @@ public class Model {
 		}
 	}
 
+	
 	public void leafPrev() {
 
 		if (currPage > 0) {
@@ -167,6 +176,7 @@ public class Model {
 
 	}
 
+	
 	public void openXML(final File file) {
 
 		final XMLReader reader = new XMLReader();
@@ -191,12 +201,14 @@ public class Model {
 		currPage = 0;
 	}
 
+	
 	public void saveXML(final File file) {
 
 		final XMLWriter xmlWriter = new XMLWriter();
 		xmlWriter.saveXML(file, students);
 	}
 
+	
 	public Vector<Student> search(final String name, final Integer group) {
 
 		final Vector<Student> studentsVector = new Vector<Student>();
@@ -214,6 +226,7 @@ public class Model {
 		return studentsVector;
 	}
 
+	
 	public Vector<Student> search(final String name, final String botStr,
 			final String topStr) {
 
@@ -230,6 +243,7 @@ public class Model {
 		return studentsVector;
 	}
 
+	
 	public Vector<Student> search(final String name, final String examStr,
 			final String botStr, final String topStr) {
 
@@ -256,6 +270,7 @@ public class Model {
 		this.observer = observer;
 	}
 
+	
 	public void setStudents(final List<Student> students) {
 
 		this.students.clear();
@@ -263,6 +278,7 @@ public class Model {
 		notifyMaxObserver();
 	}
 
+	
 	public void setViewSize(final Integer viewSize) {
 
 		if (viewSize != null) {

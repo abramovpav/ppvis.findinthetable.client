@@ -15,9 +15,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import by.bsuir.iit.abramov.ppvis.findinthetable.util.Util;
-import by.bsuir.iit.abramov.ppvis.findinthetable.view.Desktop;
-import by.bsuir.iit.abramov.ppvis.findinthetable.view.Window;
+import by.bsuir.iit.abramov.ppvis.findinthetable.client.util.Util;
+import by.bsuir.iit.abramov.ppvis.findinthetable.client.view.Desktop;
+import by.bsuir.iit.abramov.ppvis.findinthetable.client.view.Window;
 
 class XMLReader {
 

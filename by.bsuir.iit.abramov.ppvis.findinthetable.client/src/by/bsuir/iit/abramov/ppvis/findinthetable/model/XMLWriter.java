@@ -22,8 +22,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
-import by.bsuir.iit.abramov.ppvis.findinthetable.view.Desktop;
-import by.bsuir.iit.abramov.ppvis.findinthetable.view.Window;
+import by.bsuir.iit.abramov.ppvis.findinthetable.client.view.Desktop;
+import by.bsuir.iit.abramov.ppvis.findinthetable.client.view.Window;
 
 public class XMLWriter {
 	private static Logger	LOG	= Logger.getLogger(Desktop.class.getName());

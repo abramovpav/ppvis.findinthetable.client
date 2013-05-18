@@ -14,9 +14,9 @@ import java.util.Vector;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 
+import by.bsuir.iit.abramov.ppvis.findinthetable.client.view.Window;
 import by.bsuir.iit.abramov.ppvis.findinthetable.model.Model;
 import by.bsuir.iit.abramov.ppvis.findinthetable.model.Student;
-import by.bsuir.iit.abramov.ppvis.findinthetable.view.Window;
 
 /**
  * @version 1.0 11/22/98
