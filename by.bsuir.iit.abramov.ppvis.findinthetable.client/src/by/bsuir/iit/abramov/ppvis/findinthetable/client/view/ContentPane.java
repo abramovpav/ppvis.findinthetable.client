@@ -2,7 +2,6 @@ package by.bsuir.iit.abramov.ppvis.findinthetable.client.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.io.File;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -13,7 +12,6 @@ import javax.swing.JTextField;
 
 import by.bsuir.iit.abramov.ppvis.findinthetable.client.util.CoupleExt;
 import by.bsuir.iit.abramov.ppvis.findinthetable.model.Student;
-import by.bsuir.iit.abramov.ppvis.findinthetable.utiilNetClasses.Mode;
 
 public class ContentPane extends JPanel {
 	private static final String	ABOUT_AUTHOR	= "about_author";
@@ -56,6 +54,11 @@ public class ContentPane extends JPanel {
 		desktop.deleteStudents(students);
 	}
 
+	public void disconnect() {
+
+		desktop.disconnect();
+	}
+
 	public void exit() {
 
 		((Window) parent).exit();
@@ -76,16 +79,10 @@ public class ContentPane extends JPanel {
 		return desktop.isConnect();
 	}
 
-
 	public List<Student> search(final List<CoupleExt<String, JTextField>> list,
 			final int num) {
 
 		return desktop.search(list, num);
-	}
-
-	public void sendMessage(final Mode mode) {
-
-		desktop.sendMessage(mode);
 	}
 
 	public void setEnLocale() {
@@ -102,8 +99,9 @@ public class ContentPane extends JPanel {
 
 		desktop.showOpenDialog();
 	}
-	
+
 	public void showSaveDialog() {
+
 		desktop.showSaveDialog();
 	}
 

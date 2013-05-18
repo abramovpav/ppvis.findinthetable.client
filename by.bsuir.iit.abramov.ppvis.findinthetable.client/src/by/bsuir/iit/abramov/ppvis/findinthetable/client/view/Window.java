@@ -1,6 +1,5 @@
 package by.bsuir.iit.abramov.ppvis.findinthetable.client.view;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;

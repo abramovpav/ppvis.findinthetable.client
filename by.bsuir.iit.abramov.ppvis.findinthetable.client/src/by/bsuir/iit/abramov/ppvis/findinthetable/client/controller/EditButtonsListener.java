@@ -32,7 +32,10 @@ public class EditButtonsListener implements ActionListener {
 				listener = new RussianLanguageButtonActionListener();
 			break;
 			case CONNECT:
-				listener = new ConnectButtonACtionListener();
+				listener = new ConnectButtonActionListener();
+			break;
+			case DISCONNECT:
+				listener = new DisconnectButtonActionListener();
 			break;
 			default:
 				throw new IllegalParametrs();

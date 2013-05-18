@@ -2,9 +2,7 @@ package by.bsuir.iit.abramov.ppvis.findinthetable.client.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import by.bsuir.iit.abramov.ppvis.findinthetable.client.util.ActionButton;

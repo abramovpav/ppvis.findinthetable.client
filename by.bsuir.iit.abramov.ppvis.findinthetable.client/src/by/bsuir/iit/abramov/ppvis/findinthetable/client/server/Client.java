@@ -1,6 +1,5 @@
 package by.bsuir.iit.abramov.ppvis.findinthetable.client.server;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -40,6 +39,10 @@ public class Client implements ModelInterface {
 
 	public boolean connect() {
 
+		if (isConnect()) {
+			return true;
+		}
+
 		try {
 			client = SocketChannel.open();
 			client.configureBlocking(true);
@@ -73,6 +76,10 @@ public class Client implements ModelInterface {
 
 	public void disconnect() {
 
+		if (!isConnect()) {
+			client = null;
+			return;
+		}
 		try {
 			if (client != null) {
 				client.close();
@@ -87,7 +94,7 @@ public class Client implements ModelInterface {
 	@Override
 	public List<Student> getCurrPageOfStudent() {
 
-		return getModePageOfStudent(Mode.GET_CURR_PAGE);
+		return getStudents(Mode.GET_CURR_PAGE, new ArrayList<Object>());
 	}
 
 	@Override
@@ -97,18 +104,14 @@ public class Client implements ModelInterface {
 
 		if (isConnect()) {
 			sendPackage(new Package(Mode.GET_FILES_LIST, new ArrayList<Object>()));
-
 			Object obj;
-
 			while (true) {
 				try {
 					obj = ois.readObject();
 				} catch (final IOException e) {
 					System.out.println("can't read");
-					e.printStackTrace();
 					break;
 				} catch (final ClassNotFoundException e) {
-					e.printStackTrace();
 					System.out.println("can't read");
 					break;
 				}
@@ -137,11 +140,8 @@ public class Client implements ModelInterface {
 
 		Integer integerValue = null;
 		if (isConnect()) {
-
 			sendPackage(new Package(inputMode, new ArrayList<Object>()));
-
 			Object obj, object;
-
 			while (true) {
 				try {
 					obj = ois.readObject();
@@ -184,64 +184,70 @@ public class Client implements ModelInterface {
 		return integerValue;
 	}
 
-	private List<Student> getModePageOfStudent(final Mode inputMode) {
-
-		final List<Student> students = new Vector();
-
-		// if (isConnect()) {
-		sendPackage(new Package(inputMode, new ArrayList<Object>()));
-
-		Object obj;
-
-		while (true) {
-			try {
-				obj = ois.readObject();
-			} catch (final IOException e) {
-				System.out.println("can't read");
-				e.printStackTrace();
-				break;
-			} catch (final ClassNotFoundException e) {
-				e.printStackTrace();
-				System.out.println("can't read");
-				break;
-			}
-			if (obj != null) {
-				if (obj.getClass() == Package.class) {
-					final Package pack = (Package) obj;
-					final Mode mode = pack.getMode();
-					switch (mode) {
-						case GET_CURR_PAGE:
-							receiveStudents(students, pack);
-							return students;
-						case GET_NEXT_PAGE:
-							receiveStudents(students, pack);
-							return students;
-						case GET_PREV_PAGE:
-							receiveStudents(students, pack);
-							return students;
-						default:
-							System.out.println("default");
-						break;
-					}
-					System.out.println();
-					break;
-				}
-			}
-		}
-		// }
-		return students;
-	}
-
 	@Override
 	public List<Student> getNextPageOfStudents() {
 
-		return getModePageOfStudent(Mode.GET_NEXT_PAGE);
+		return getStudents(Mode.GET_NEXT_PAGE, new ArrayList<Object>());
 	}
 
 	@Override
 	public List<Student> getPrevPageOfStudents() {
 
-		return getModePageOfStudent(Mode.GET_PREV_PAGE);
+		return getStudents(Mode.GET_PREV_PAGE, new ArrayList<Object>());
+	}
+
+	private List<Student> getStudents(final Mode inputMode, final List<Object> params) {
+
+		final List<Student> students = new Vector<Student>();
+		if (isConnect()) {
+			sendPackage(new Package(inputMode, params));
+
+			Object obj;
+
+			while (true) {
+				try {
+					obj = ois.readObject();
+				} catch (final IOException e) {
+					System.out.println("can't read");
+					break;
+				} catch (final ClassNotFoundException e) {
+					System.out.println("can't read");
+					break;
+				}
+				if (obj != null) {
+					if (obj.getClass() == Package.class) {
+						final Package pack = (Package) obj;
+						final Mode mode = pack.getMode();
+						switch (mode) {
+							case SEARCH1:
+								receiveStudents(students, pack);
+								return students;
+							case SEARCH2:
+								receiveStudents(students, pack);
+								return students;
+							case SEARCH3:
+								receiveStudents(students, pack);
+								return students;
+							case GET_CURR_PAGE:
+								receiveStudents(students, pack);
+								return students;
+							case GET_NEXT_PAGE:
+								receiveStudents(students, pack);
+								return students;
+							case GET_PREV_PAGE:
+								receiveStudents(students, pack);
+								return students;
+							default:
+								System.out.println("default");
+							break;
+						}
+						System.out.println();
+						break;
+					}
+				}
+			}
+		}
+		return students;
 	}
 
 	@Override
@@ -249,15 +255,6 @@ public class Client implements ModelInterface {
 
 		return getIntegerValue(Mode.GET_STUDENTS_COUNT);
 	}
-
-	/*
-	 * case ADD_STUDENT: break; case DELETE_STUDENTS: break; case GET_CURR_PAGE:
-	 * break; case GET_NEXT_PAGE: break; case GET_PREV_PAGE: break; case
-	 * GET_STUDENTS_COUNT: break; case GET_VIEWSIZE: break; case LEAF_NEXT_PAGE:
-	 * break; case LEAF_PREV_PAGE: break; case OPEN_FILE: break; case SAVE_FILE:
-	 * break; case SEARCH1: break; case SEARCH2: break; case SEARCH3: break;
-	 * case SET_VIEWSIZE: break;
-	 */
 
 	@Override
 	public Integer getViewSize() {
@@ -331,7 +328,7 @@ public class Client implements ModelInterface {
 
 		if (isConnect()) {
 			if (obj != null && obj.getClass() == String.class) {
-				System.out.println("string" + (String)obj);
+				System.out.println("string" + (String) obj);
 				final List<Object> objects = new ArrayList<Object>();
 				objects.add(obj);
 				sendPackage(new Package(Mode.SAVE_FILE, objects));
@@ -340,56 +337,13 @@ public class Client implements ModelInterface {
 
 	}
 
-	private List<Student> search(final Mode inputMode, final List<Object> params) {
-
-		final List<Student> students = new Vector();
-		sendPackage(new Package(inputMode, params));
-
-		Object obj;
-
-		while (true) {
-			try {
-				obj = ois.readObject();
-			} catch (final IOException e) {
-				System.out.println("can't read");
-				break;
-			} catch (final ClassNotFoundException e) {
-				System.out.println("can't read");
-				break;
-			}
-			if (obj != null) {
-				if (obj.getClass() == Package.class) {
-					final Package pack = (Package) obj;
-					final Mode mode = pack.getMode();
-					switch (mode) {
-						case SEARCH1:
-							receiveStudents(students, pack);
-							return students;
-						case SEARCH2:
-							receiveStudents(students, pack);
-							return students;
-						case SEARCH3:
-							receiveStudents(students, pack);
-							return students;
-						default:
-							System.out.println("default");
-						break;
-					}
-					System.out.println();
-					break;
-				}
-			}
-		}
-		return students;
-	}
-
 	@Override
 	public List<Student> search(final String name, final Integer group) {
 
 		final List<Object> params = new ArrayList<Object>();
 		params.add(name);
 		params.add(group);
-		final List<Student> students = search(Mode.SEARCH2, params);
+		final List<Student> students = getStudents(Mode.SEARCH2, params);
 
 		return students;
 	}
@@ -403,22 +357,7 @@ public class Client implements ModelInterface {
 		params.add(botStr);
 		params.add(topStr);
 
-		final List<Student> students = search(Mode.SEARCH1, params);
-		/*
-		 * sendPackage(new Package(Mode.SEARCH1, params));
-		 * 
-		 * Object obj;
-		 * 
-		 * 
-		 * while (true) { try { obj = ois.readObject(); } catch (IOException e)
-		 * { System.out.println("can't read"); break; } catch
-		 * (ClassNotFoundException e) { System.out.println("can't read"); break;
-		 * } if (obj != null) { if (obj.getClass() == Package.class) { Package
-		 * pack = (Package) obj; Mode mode = pack.getMode(); switch (mode) {
-		 * case SEARCH1: receiveStudents(students, pack); return students;
-		 * default: System.out.println("default"); break; }
-		 * System.out.println(); break; } } }
-		 */
+		final List<Student> students = getStudents(Mode.SEARCH1, params);
 		return students;
 	}
 
@@ -432,47 +371,13 @@ public class Client implements ModelInterface {
 		params.add(botStr);
 		params.add(topStr);
 
-		final List<Student> students = search(Mode.SEARCH3, params);
-		/*
-		 * sendPackage(new Package(Mode.SEARCH3, params));
-		 * 
-		 * Object obj;
-		 * 
-		 * 
-		 * while (true) { try { obj = ois.readObject(); } catch (IOException e)
-		 * { System.out.println("can't read"); break; } catch
-		 * (ClassNotFoundException e) { System.out.println("can't read"); break;
-		 * } if (obj != null) { if (obj.getClass() == Package.class) { Package
-		 * pack = (Package) obj; Mode mode = pack.getMode(); switch (mode) {
-		 * case SEARCH3: receiveStudents(students, pack); return students;
-		 * default: System.out.println("default"); break; }
-		 * System.out.println(); break; } } }
-		 */
+		final List<Student> students = getStudents(Mode.SEARCH3, params);
 		return students;
-	}
-
-	public void sendMessage(final Mode text) throws IOException {
-
-		if (client == null) {
-			return;
-		}
-
-		oos.writeObject(text);
-	}
-
-	public boolean sendMessage(final String text) throws IOException {
-
-		if (client == null) {
-			return false;
-		}
-
-		oos.writeObject(text);
-		return true;
 	}
 
 	public void sendPackage(final Package pack) {
 
-		if (client == null) {
+		if (!isConnect()) {
 			return;
 		}
 		try {
@@ -483,19 +388,13 @@ public class Client implements ModelInterface {
 	}
 
 	@Override
-	public void setStudents(final List<Student> students) {
-
-		// TODO Auto-generated method stub
-		// реализация не нужна
-
-	}
-
-	@Override
 	public void setViewSize(final Integer viewSize) {
 
 		final List<Object> list = new ArrayList<Object>();
 		list.add(viewSize);
-		sendPackage(new Package(Mode.SET_VIEWSIZE, list));
+		if (isConnect()) {
+			sendPackage(new Package(Mode.SET_VIEWSIZE, list));
+		}
 
 	}
 }

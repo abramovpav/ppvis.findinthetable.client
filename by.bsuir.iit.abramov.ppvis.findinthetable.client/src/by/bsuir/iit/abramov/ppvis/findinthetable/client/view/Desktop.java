@@ -2,7 +2,6 @@ package by.bsuir.iit.abramov.ppvis.findinthetable.client.view;
 
 import java.awt.BorderLayout;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
@@ -23,7 +22,6 @@ import by.bsuir.iit.abramov.ppvis.findinthetable.model.table.AttributiveCellRend
 import by.bsuir.iit.abramov.ppvis.findinthetable.model.table.AttributiveCellTableModel;
 import by.bsuir.iit.abramov.ppvis.findinthetable.model.table.CellAttribute;
 import by.bsuir.iit.abramov.ppvis.findinthetable.model.table.MultiSpanCellTable;
-import by.bsuir.iit.abramov.ppvis.findinthetable.utiilNetClasses.Mode;
 
 public class Desktop extends JPanel {
 	public static final String			MAX					= "max";
@@ -106,6 +104,16 @@ public class Desktop extends JPanel {
 		refreshObservers();
 	}
 
+	public void disconnect() {
+
+		if (client == null) {
+			client = new Client();
+			return;
+		}
+		client.disconnect();
+		refresh();
+	}
+
 	public final AttributiveCellTableModel getTableModel() {
 
 		return tableModel;
@@ -145,11 +153,6 @@ public class Desktop extends JPanel {
 		client.loadFile(obj);
 		refresh();
 	}
-	
-	public void saveFile(final Object obj) {
-		client.saveFile(obj);
-		refresh();
-	}
 
 	private void prepareTable() {
 
@@ -182,6 +185,12 @@ public class Desktop extends JPanel {
 			}
 			observer.setText(Integer.toString(viewSize));
 		}
+	}
+
+	public void saveFile(final Object obj) {
+
+		client.saveFile(obj);
+		refresh();
 	}
 
 	public void saveXML(final File file) {
@@ -268,19 +277,6 @@ public class Desktop extends JPanel {
 		return client.search(name, examStr, botStr, topStr);
 	}
 
-	public void sendMessage(final Mode mode) {
-
-		if (client.isConnect()) {
-			try {
-				client.sendMessage(mode);
-			} catch (final IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-
-	}
-
 	public void setMaxObserver(final JTextField observer) {
 
 		maxObserver = observer;
@@ -309,8 +305,9 @@ public class Desktop extends JPanel {
 		OpenDialog.showDialog(this, client.getFilesList());
 		// client.openXML();
 	}
-	
+
 	public void showSaveDialog() {
+
 		SaveDialog.showDialog(this, client.getFilesList());
 	}
 

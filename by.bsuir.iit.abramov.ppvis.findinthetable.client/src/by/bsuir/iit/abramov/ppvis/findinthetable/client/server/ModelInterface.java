@@ -1,6 +1,5 @@
 package by.bsuir.iit.abramov.ppvis.findinthetable.client.server;
 
-import java.io.File;
 import java.util.List;
 
 import by.bsuir.iit.abramov.ppvis.findinthetable.model.Student;
@@ -39,8 +38,6 @@ public interface ModelInterface {
 
 	public List<Student> search(final String name, final String examStr,
 			final String botStr, final String topStr);
-
-	public void setStudents(final List<Student> students);
 
 	public void setViewSize(final Integer viewSize);
 }
