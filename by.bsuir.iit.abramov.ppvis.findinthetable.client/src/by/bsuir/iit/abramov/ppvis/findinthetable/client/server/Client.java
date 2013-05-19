@@ -116,7 +116,7 @@ public class Client implements ModelInterface {
 					break;
 				}
 				if (obj != null) {
-					if (obj.getClass() == Package.class) {
+					if (isPackage(obj)) {
 						final Package pack = (Package) obj;
 						final Mode mode = pack.getMode();
 						switch (mode) {
@@ -138,7 +138,7 @@ public class Client implements ModelInterface {
 
 	private Integer getIntegerValue(final Mode inputMode) {
 
-		Integer integerValue = null;
+		Integer intValue = null;
 		if (isConnect()) {
 			sendPackage(new Package(inputMode, new ArrayList<Object>()));
 			Object obj, object;
@@ -153,24 +153,24 @@ public class Client implements ModelInterface {
 					break;
 				}
 				if (obj != null) {
-					if (obj.getClass() == Package.class) {
+					if (isPackage(obj)) {
 						final Package pack = (Package) obj;
 						final Mode mode = pack.getMode();
 						switch (mode) {
 							case GET_VIEWSIZE:
-								integerValue = null;
+								intValue = null;
 								object = pack.getObjects().get(0);
-								if (object.getClass() == Integer.class) {
-									integerValue = (Integer) object;
+								if (isInteger(object)) {
+									intValue = (Integer) object;
 								}
-								return integerValue;
+								return intValue;
 							case GET_STUDENTS_COUNT:
-								integerValue = null;
+								intValue = null;
 								object = pack.getObjects().get(0);
-								if (object.getClass() == Integer.class) {
-									integerValue = (Integer) object;
+								if (isInteger(object)) {
+									intValue = (Integer) object;
 								}
-								return integerValue;
+								return intValue;
 							default:
 								System.out.println("default");
 							break;
@@ -181,7 +181,7 @@ public class Client implements ModelInterface {
 				}
 			}
 		}
-		return integerValue;
+		return intValue;
 	}
 
 	@Override
@@ -215,7 +215,7 @@ public class Client implements ModelInterface {
 					break;
 				}
 				if (obj != null) {
-					if (obj.getClass() == Package.class) {
+					if (isPackage(obj)) {
 						final Package pack = (Package) obj;
 						final Mode mode = pack.getMode();
 						switch (mode) {
@@ -269,6 +269,16 @@ public class Client implements ModelInterface {
 			return false;
 		}
 		return client.isConnected();
+	}
+
+	private boolean isInteger(final Object object) {
+
+		return object.getClass() == Integer.class;
+	}
+
+	private boolean isPackage(final Object obj) {
+
+		return obj.getClass() == Package.class;
 	}
 
 	@Override
