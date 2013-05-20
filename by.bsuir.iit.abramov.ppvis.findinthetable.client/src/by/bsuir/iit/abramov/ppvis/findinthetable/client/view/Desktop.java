@@ -138,6 +138,15 @@ public class Desktop extends JPanel {
 
 		buttonPanel = Util.createButtonPanel(client, this,
 				new NavigationButtonActionListener(client, this));
+		/*
+		 * Model model = new Model(); Exam[] exams = new Exam[5]; Integer group
+		 * = new Integer(0); String name = "name"; for (int i = 0; i < 100; ++i)
+		 * { exams = new Exam[5]; group = (int) (Math.random() * 10000); for
+		 * (int j = 0; j < 5; j++) { exams[j] = new Exam("exam" +
+		 * Integer.toString(j), (int)(Math.random()*10)); } model.addStudent(new
+		 * Student(name, group, exams)); } model.saveXML(new File("c:" +
+		 * File.separator + "text.xml"));
+		 */
 	}
 
 	public boolean isConnect() {
